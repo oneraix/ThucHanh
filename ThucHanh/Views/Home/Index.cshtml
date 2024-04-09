@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ThucHanh.Models.Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Products</h1>
+
+<form asp-controller="Home" asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="category">Category:</label>
+        <select class="form-control" id="category" name="category">
+            <option value="">All</option>
+            <option value="Bánh Tráng">Bánh Tráng</option>
+            <option value="Muối">Muối</option>
+            <option value="Combo">Combo</option>
+            <option value="Topping">Topping</option>
+            <option value="Sốt">Sốt</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="keyword">Keyword:</label>
+        <input type="text" class="form-control" id="keyword" name="keyword">
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">Price: @product.Price.ToString("#,##0") Vnđ</p>
+                        <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No products found.</p>
+}
